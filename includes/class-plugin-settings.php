@@ -15,22 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Plugin_Settings {
 	const TAG = 'gmh';
-	private static $default_refresh_interval = 30000;
+    const DEFAULT_REFRESH_INTERVAL = 30000;
 
 	public static function get_api_key() {
 		return get_option( Plugin_Settings::TAG . '_api_key', '' );
-	}
-
-	public static function get_map_title() {
-		return get_option( Plugin_Settings::TAG . '_map_title', '' );
-	}
-
-	public static function get_map_type() {
-		return get_option( Plugin_Settings::TAG . '_map_type', '' );
-	}
-
-	public static function get_map_refresh_interval() {
-		return get_option( Plugin_Settings::TAG . '_refresh_interval', Plugin_Settings::$default_refresh_interval );
 	}
 
 	public static function display_streetmap() {
