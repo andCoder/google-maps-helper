@@ -9,6 +9,6 @@
 namespace GoogleMapsHelper\Includes;
 
 
-class GoogleMapHelper {
+class Google_Map_Helper {
 
 }
