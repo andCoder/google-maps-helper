@@ -15,3 +15,5 @@ if ( defined( 'ABSPATH' ) ) {
 }
 
 define( 'MAIN_PATH', plugin_dir_path( __FILE__ ) );
+require_once 'includes/class-google-map-helper.php';
+
