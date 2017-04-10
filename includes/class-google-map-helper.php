@@ -31,7 +31,7 @@ class Google_Map_Helper {
 
     private function register_scripts()
     {
-        wp_register_style('gmh-css', GMH_MAIN_PATH . '/css/gmh.css');
+        wp_register_style('gmh-css', GMH_PLUGIN_URL . '/css/gmh.css');
         wp_enqueue_style('gmh-css');
     }
 
