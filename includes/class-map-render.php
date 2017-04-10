@@ -12,9 +12,10 @@ namespace GoogleMapsHelper\Includes;
 * Class adds JS to the footer section
 */
 
-if ( defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Access is denied.' );
 }
+
 
 class Google_Map_Render
 {
@@ -27,7 +28,6 @@ class Google_Map_Render
 
     function __construct( $key ) {
         $this->set_google_api_key( $key );
-        $this->add_hooks();
     }
 
     public function set_google_api_key( $key ) {
@@ -50,18 +50,11 @@ class Google_Map_Render
 		$this->map_options['map_type'] = $type;
 	}
 
-    private function add_hooks() {
-	    add_filter( 'the_content', array( $this, 'print_map' ) );
-	    add_action( 'wp_print_footer_scripts', array( $this, 'add_script' ) );
-    }
-
-	private function print_map( $content ) {
-		$content .= '<div id="map"></div>';
-
-		return $content;
+	public function get_map() {
+		return '<div id="map"></div>';
 	}
 
-	private function add_script()
+	public function add_script()
     {
 	    if ( isset( $this->map_options['api_key'] ) ) {
 		    echo '<script async defer src="https://maps.googleapis.com/maps/api/js?key=' . $this->map_options['api_key']
