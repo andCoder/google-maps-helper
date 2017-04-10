@@ -12,7 +12,7 @@ namespace GoogleMapsHelper\Includes;
 * Class adds JS to the footer section
 */
 
-class MapRender
+class Google_Map_Render
 {
     private $map_key;
 
