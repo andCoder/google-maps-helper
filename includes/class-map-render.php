@@ -51,16 +51,26 @@ class Google_Map_Render
 	}
 
 	public function get_map() {
-		return '<div id="map"></div>';
+        $content = '';
+        if (isset($this->map_options['title']))
+            $content .= '<h2>' . $this->map_options['title'] . '</h2>';
+        $content .= '<div id="map"></div>';
+        return $content;
 	}
+
+    public function print_options()
+    {
+        wp_localize_script('gmh-map-js', 'options', $this->map_options);
+    }
 
 	public function add_script()
     {
 	    if ( isset( $this->map_options['api_key'] ) ) {
-            echo '<script src="https://maps.googleapis.com/maps/api/js?key=' . $this->map_options['api_key'] . '"></script>';
+            wp_register_script('google-sdk', "https://maps.googleapis.com/maps/api/js?key={$this->map_options['api_key']}", null, false, true);
+            wp_enqueue_script('google-sdk');
 
-            wp_localize_script(GMH_MAIN_PATH . '/js/map.js', 'options', $this->map_options);
-            echo '<script src="' . GMH_PLUGIN_URL . '/js/map.js" type="text/javascript"></script>';
+            wp_register_script('gmh-map-js', GMH_PLUGIN_URL . '/js/map.js', array('google-sdk'), false, true);
+            wp_enqueue_script('gmh-map-js');
 	    }
     }
 
