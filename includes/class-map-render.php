@@ -14,6 +14,21 @@ namespace GoogleMapsHelper\Includes;
 
 class MapRender
 {
+    private $map_key;
+
+    function __construct( $key ) {
+        $this->set_google_api_key( $key );
+        $this->add_hooks();
+    }
+
+    public function set_google_api_key( $key ) {
+        $map_key = $key;
+    }
+
+    private function add_hooks() {
+        add_action( 'wp_print_footer_scripts', array( 'add_script', $this ) );
+    }
+
     public function add_script()
     {
 
