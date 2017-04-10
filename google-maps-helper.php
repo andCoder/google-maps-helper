@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Access is denied.' );
 }
 
-define( 'MAIN_PATH', plugin_dir_path( __FILE__ ) );
+define('GMH_MAIN_PATH', dirname(__FILE__));
+define('GMH_PLUGIN_URL', plugins_url('/google-maps-helper'));
+
 require_once 'includes/class-google-map-helper.php';
 

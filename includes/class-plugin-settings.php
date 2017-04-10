@@ -17,8 +17,11 @@ class Plugin_Settings {
 	const TAG = 'gmh';
     const DEFAULT_REFRESH_INTERVAL = 30000;
 
+    //for development purposes only!!!
+    const DEVELOPER_KEY = 'AIzaSyBBopFVPzEjfKrK_upkbcYlK3wddBwFTXg';
+
 	public static function get_api_key() {
-		return get_option( Plugin_Settings::TAG . '_api_key', '' );
+        return get_option(Plugin_Settings::TAG . '_api_key', Plugin_Settings::DEVELOPER_KEY);
 	}
 
 	public static function display_streetmap() {

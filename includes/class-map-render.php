@@ -57,12 +57,12 @@ class Google_Map_Render
 	public function add_script()
     {
 	    if ( isset( $this->map_options['api_key'] ) ) {
+
 		    echo '<script async defer src="https://maps.googleapis.com/maps/api/js?key=' . $this->map_options['api_key']
 		         . '&callback=initMap">
     </script>';
-
-		    wp_localize_script( MAIN_PATH . '/js/map.js', 'options', $this->map_options );
-		    echo '<script src="js/map.js" type="text/javascript"/>';
+            wp_localize_script(GMH_MAIN_PATH . '/js/map.js', 'options', $this->map_options);
+            echo '<script src="' . GMH_PLUGIN_URL . '/js/map.js" type="text/javascript"/>';
 	    }
     }
 
