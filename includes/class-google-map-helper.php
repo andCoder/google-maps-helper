@@ -25,7 +25,7 @@ class Google_Map_Helper {
 	}
 
 	private function init_plugin() {
-		add_shortcode( 'google_maps_helper', array( $this, 'print_content' ) );
+        add_shortcode('google-maps-helper', array($this, 'print_content'));
 
 		require 'class-plugin-settings.php';
 		require_once 'class-map-render.php';
@@ -36,11 +36,19 @@ class Google_Map_Helper {
 		add_action( 'wp_print_footer_scripts', array( $this->render, 'add_script' ) );
 	}
 
-	private function print_content( $atts, $content = null ) {
+    private function print_content($atts)
+    {
 		$options = shortcode_atts( array(
-			'map_title' => '',
-			'map_type'  => ''
+            'map_title' => '',
+            'map_type' => Google_Map_Render::MAP_TYPE_ROADMAP,
+            'refresh_interval' => Plugin_Settings::DEFAULT_REFRESH_INTERVAL
 		), $atts );
+
+        $this->render->set_map_title($options['title']);
+        $this->render->set_map_type($options['map_type']);
+        $this->render->set_refresh_interval($options['refresh_interval']);
+
+        return $this->render->get_map();
 	}
 }
 
