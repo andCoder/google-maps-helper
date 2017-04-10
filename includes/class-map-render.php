@@ -51,10 +51,17 @@ class Google_Map_Render
 	}
 
     private function add_hooks() {
-        add_action( 'wp_print_footer_scripts', array( 'add_script', $this ) );
+	    add_filter( 'the_content', array( $this, 'print_map' ) );
+	    add_action( 'wp_print_footer_scripts', array( $this, 'add_script' ) );
     }
 
-    public function add_script()
+	private function print_map( $content ) {
+		$content .= '<div id="map"></div>';
+
+		return $content;
+	}
+
+	private function add_script()
     {
 	    if ( isset( $this->map_options['api_key'] ) ) {
 		    echo '<script async defer src="https://maps.googleapis.com/maps/api/js?key=' . $this->map_options['api_key']
@@ -65,4 +72,6 @@ class Google_Map_Render
 		    echo '<script src="js/map.js" type="text/javascript"/>';
 	    }
     }
+
+
 }
