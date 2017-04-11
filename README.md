@@ -1,4 +1,4 @@
-# google-maps-hepler
+# Google Maps Helper
 <p>Before usage you need to set required options. To do that go to <b>Settings > Google Maps Helper</b></p>
 <p>This is a Wordpress plugin for managing Google Maps View.
 It uses a shortcode <b>[google-maps-helper]</b>. This shortcode can be used with these attributes:</p> 
