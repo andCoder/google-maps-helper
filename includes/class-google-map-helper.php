@@ -20,12 +20,16 @@ class Google_Map_Helper {
 	}
 
 	private function init_plugin() {
+        if (is_admin()) {
+            //init settings page
+            require_once GMH_MAIN_PATH . '/admin/gmh-settings.php';
+        }
+        if (!class_exists('GoogleMapsHelper\Includes\Plugin_Settings')) {
+            require_once 'class-plugin-settings.php';
+        }
 
-		require 'class-plugin-settings.php';
 		require_once 'class-map-render.php';
-
 		$this->render = new Google_Map_Render( Plugin_Settings::get_api_key() );
-        //add_action( 'wp_print_footer_scripts', array( $this->render, 'print_options' ) );
 	}
 
     public function register_scripts()

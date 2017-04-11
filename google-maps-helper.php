@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define('GMH_MAIN_PATH', dirname(__FILE__));
+define('GMH_PLUGIN_NAME', plugin_basename(__FILE__));
 define('GMH_PLUGIN_URL', plugins_url('/google-maps-helper'));
 
 require_once 'includes/class-google-map-helper.php';
