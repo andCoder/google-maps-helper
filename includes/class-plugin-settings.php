@@ -22,6 +22,8 @@ class Gmh_Plugin_Settings
     const API_KEY_FIELD = GMH_TAG . '_api_key';
     const DISPLAY_STREETMAP_FIELD = GMH_TAG . '_display_streetmap';
     const JSON_URL_FIELD = GMH_TAG . '_json_url';
+    const JSON_POINT_LONGITUDE_FIELD = GMH_TAG . '_json_lng';
+    const JSON_POINT_LATITUDE_FIELD = GMH_TAG . '_json_lat';
     const JSON_VARIABLES_TO_DISPLAY_FIELD = GMH_TAG . '_json_variables_to_display';
     const MARKER_ICON_FILE_NAME = GMH_TAG . '_marker_icon_file_name';
 
@@ -30,28 +32,31 @@ class Gmh_Plugin_Settings
     //for development purposes only!!!
     const DEVELOPER_KEY = 'AIzaSyBBopFVPzEjfKrK_upkbcYlK3wddBwFTXg';
 
-    public static function get_api_key()
-    {
+    public static function get_api_key() {
         return get_option( Gmh_Plugin_Settings::API_KEY_FIELD, Gmh_Plugin_Settings::DEVELOPER_KEY );
     }
 
-    public static function display_streetmap()
-    {
+    public static function display_streetmap() {
         return get_option( Gmh_Plugin_Settings::DISPLAY_STREETMAP_FIELD, 1 );
     }
 
-    public static function get_json_url()
-    {
+    public static function get_json_url() {
         return get_option( Gmh_Plugin_Settings::JSON_URL_FIELD, '' );
     }
 
-    public static function get_json_variables_to_display()
-    {
+    public static function get_json_latitude_field_name() {
+        return get_option( Gmh_Plugin_Settings::JSON_POINT_LATITUDE_FIELD, '' );
+    }
+
+    public static function get_json_longitude_field_name() {
+        return get_option( Gmh_Plugin_Settings::JSON_POINT_LONGITUDE_FIELD, '' );
+    }
+
+    public static function get_json_variables_to_display() {
         return get_option( Gmh_Plugin_Settings::JSON_VARIABLES_TO_DISPLAY_FIELD, 'all' );
     }
 
-    public static function get_marker_icon()
-    {
+    public static function get_marker_icon() {
         return get_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME, '' );
     }
 }
