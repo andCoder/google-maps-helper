@@ -16,7 +16,7 @@ if ( ! defined( 'GMH_TAG' ) ) {
     define( 'GMH_TAG', 'gmh' );
 }
 
-class Plugin_Settings
+class Gmh_Plugin_Settings
 {
     //options fields
     const API_KEY_FIELD = GMH_TAG . '_api_key';
@@ -32,26 +32,26 @@ class Plugin_Settings
 
     public static function get_api_key()
     {
-        return get_option( Plugin_Settings::API_KEY_FIELD, Plugin_Settings::DEVELOPER_KEY );
+        return get_option( Gmh_Plugin_Settings::API_KEY_FIELD, Gmh_Plugin_Settings::DEVELOPER_KEY );
     }
 
     public static function display_streetmap()
     {
-        return get_option( Plugin_Settings::DISPLAY_STREETMAP_FIELD, 1 );
+        return get_option( Gmh_Plugin_Settings::DISPLAY_STREETMAP_FIELD, 1 );
     }
 
     public static function get_json_url()
     {
-        return get_option( Plugin_Settings::JSON_URL_FIELD, '' );
+        return get_option( Gmh_Plugin_Settings::JSON_URL_FIELD, '' );
     }
 
     public static function get_json_variables_to_display()
     {
-        return get_option( Plugin_Settings::JSON_VARIABLES_TO_DISPLAY_FIELD, 'all' );
+        return get_option( Gmh_Plugin_Settings::JSON_VARIABLES_TO_DISPLAY_FIELD, 'all' );
     }
 
     public static function get_marker_icon()
     {
-        return get_option( Plugin_Settings::MARKER_ICON_FILE_NAME, '' );
+        return get_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME, '' );
     }
 }

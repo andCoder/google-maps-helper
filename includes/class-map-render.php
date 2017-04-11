@@ -56,6 +56,24 @@ class Google_Map_Render
         $this->map_options['map_type'] = $type;
     }
 
+    public function set_json_url( $url )
+    {
+        $this->map_options['json_url'] = $url;
+    }
+
+    public function set_json_fields( $fields_string )
+    {
+        $fields = mb_split( ',', $fields_string );
+        foreach ( $fields as $field ) {
+            $this->map_options['json_fields'][] = trim( $field );
+        }
+    }
+
+    public function display_streetmap( $display )
+    {
+        $this->map_options['display_streetmap'] = $display;
+    }
+
     public function get_map()
     {
         $content = '';

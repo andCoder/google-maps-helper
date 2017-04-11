@@ -31,7 +31,7 @@ class Google_Map_Helper
         }
 
         require_once 'class-map-render.php';
-        $this->render = new Google_Map_Render( Plugin_Settings::get_api_key() );
+        $this->render = new Google_Map_Render( Gmh_Plugin_Settings::get_api_key() );
     }
 
     public function register_scripts()
@@ -46,12 +46,15 @@ class Google_Map_Helper
         $options = shortcode_atts( array(
             'title' => '',
             'type' => Google_Map_Render::MAP_TYPE_ROADMAP,
-            'refresh_interval' => Plugin_Settings::DEFAULT_REFRESH_INTERVAL
+            'refresh_interval' => Gmh_Plugin_Settings::DEFAULT_REFRESH_INTERVAL
         ), $atts );
 
         $this->render->set_map_title( esc_attr( $options['title'] ) );
         $this->render->set_map_type( esc_attr( $options['type'] ) );
         $this->render->set_refresh_interval( esc_attr( $options['refresh_interval'] ) );
+        $this->render->set_json_url( esc_url( Gmh_Plugin_Settings::get_json_url() ) );
+        $this->render->set_json_fields( esc_attr( Gmh_Plugin_Settings::get_json_variables_to_display() ) );
+        $this->render->display_streetmap( esc_attr( Gmh_Plugin_Settings::display_streetmap() ) );
 
         $this->render->print_options();
 
