@@ -11,12 +11,12 @@ License: A "Slug" license name e.g. GPL2
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die( 'Access is denied.' );
+    die( 'Access is denied.' );
 }
 
-define('GMH_MAIN_PATH', dirname(__FILE__));
-define('GMH_PLUGIN_NAME', plugin_basename(__FILE__));
-define('GMH_PLUGIN_URL', plugins_url('/google-maps-helper'));
+define( 'GMH_MAIN_PATH', dirname( __FILE__ ) );
+define( 'GMH_PLUGIN_NAME', plugin_basename( __FILE__ ) );
+define( 'GMH_PLUGIN_URL', plugins_url( '/google-maps-helper' ) );
 
 require_once 'includes/class-google-map-helper.php';
 

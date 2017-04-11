@@ -8,6 +8,16 @@
 
 add_action('admin_menu', 'add_gmh_settings_page');
 add_action('admin_init', 'display_options');
+add_filter( "plugin_action_links_" . GMH_PLUGIN_NAME, 'gmh_plugin_settings_link' );
+
+function gmh_plugin_settings_link( $links )
+{
+    $settings_link = '<a href="options-general.php?page=google_maps_helper">Settings</a>';
+    array_unshift( $links, $settings_link );
+    return $links;
+}
+
+
 
 function add_gmh_settings_page()
 {
@@ -70,12 +80,13 @@ function gmh_display_api_key_field($atts)
     <?php
 }
 
+//TODO: to make a checkbox work properly
 function gmh_print_display_streetmap_field($atts)
 {
     $is_displayed = \GoogleMapsHelper\Includes\Plugin_Settings::display_streetmap();
     ?>
     <input type="checkbox" name="<?php echo $atts['name']; ?>"
-           value="<?php echo $is_displayed; ?>" <?php checked(1, $is_displayed, false); ?>/>
+           value="<?php echo $is_displayed; ?>" <?php checked( 1, $is_displayed, false ); ?>/>
     <?php
 }
 
@@ -105,11 +116,3 @@ function gmh_display_marker_file_input($atts)
     <?php
 }
 
-function gmh_plugin_settings_link($links)
-{
-    $settings_link = '<a href="options-general.php?page=google_maps_helper">Settings</a>';
-    array_unshift($links, $settings_link);
-    return $links;
-}
-
-add_filter("plugin_action_links_" . GMH_PLUGIN_NAME, 'gmh_plugin_settings_link');
