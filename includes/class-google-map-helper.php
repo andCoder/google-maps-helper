@@ -20,12 +20,11 @@ class Google_Map_Helper {
 	}
 
 	private function init_plugin() {
+        require_once 'class-plugin-settings.php';
+
         if (is_admin()) {
             //init settings page
             require_once GMH_MAIN_PATH . '/admin/gmh-settings.php';
-        }
-        if (!class_exists('GoogleMapsHelper\Includes\Plugin_Settings')) {
-            require_once 'class-plugin-settings.php';
         }
 
 		require_once 'class-map-render.php';

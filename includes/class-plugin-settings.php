@@ -34,7 +34,7 @@ class Plugin_Settings {
 	}
 
 	public static function display_streetmap() {
-        return get_option(Plugin_Settings::DISPLAY_STREETMAP_FIELD, true);
+        return get_option(Plugin_Settings::DISPLAY_STREETMAP_FIELD, 1);
 	}
 
 	public static function get_json_url() {
