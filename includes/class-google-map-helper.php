@@ -42,12 +42,16 @@ class Google_Map_Helper
         $options = shortcode_atts( array(
             'title' => '',
             'type' => Google_Map_Render::MAP_TYPE_ROADMAP,
-            'refresh_interval' => Gmh_Plugin_Settings::DEFAULT_REFRESH_INTERVAL
+            'refresh_interval' => Gmh_Plugin_Settings::DEFAULT_REFRESH_INTERVAL,
+            'map_center' => '0; 0',
+            'zoom' => '1'
         ), $atts );
         /*Set all settings to use them in JS*/
         $this->render->set_map_title( esc_attr( $options['title'] ) );
         $this->render->set_map_type( esc_attr( $options['type'] ) );
         $this->render->set_refresh_interval( esc_attr( $options['refresh_interval'] ) );
+        $this->render->set_map_center( esc_attr( $options['map_center'] ) );
+        $this->render->set_zoom( esc_attr( $options['zoom'] ) );
 
         $this->render->set_json_url( esc_url( Gmh_Plugin_Settings::get_json_url() ) );
         $this->render->set_latitude_field_name( esc_attr( Gmh_Plugin_Settings::get_json_latitude_field_name() ) );

@@ -50,6 +50,16 @@ class Google_Map_Render
         $this->map_options['map_type'] = $type;
     }
 
+    public function set_map_center( $center ) {
+        $center_arr = mb_split( ';', $center );
+        $this->map_options['map_center'][] = trim( $center_arr[0] );
+        $this->map_options['map_center'][] = trim( $center_arr[1] );
+    }
+
+    public function set_zoom( $zoom ) {
+        $this->map_options['zoom'] = $zoom;
+    }
+
     public function set_json_url( $url ) {
         $this->map_options['json_url'] = $url;
     }

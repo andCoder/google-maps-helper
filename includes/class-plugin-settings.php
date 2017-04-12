@@ -45,11 +45,11 @@ class Gmh_Plugin_Settings
     }
 
     public static function get_json_latitude_field_name() {
-        return get_option( Gmh_Plugin_Settings::JSON_POINT_LATITUDE_FIELD, '' );
+        return get_option( Gmh_Plugin_Settings::JSON_POINT_LATITUDE_FIELD, 'latitude' );
     }
 
     public static function get_json_longitude_field_name() {
-        return get_option( Gmh_Plugin_Settings::JSON_POINT_LONGITUDE_FIELD, '' );
+        return get_option( Gmh_Plugin_Settings::JSON_POINT_LONGITUDE_FIELD, 'longitude' );
     }
 
     public static function get_json_variables_to_display() {
