@@ -69,11 +69,21 @@ function createMarkersFromJson(map, jsonUrl, latField, longField, fields) {
                 addMarker(markerItem);
             }
         });
+        createMarkerClusters(map)
     });
 }
 
 function addMarker(marker) {
     markers.push(marker);
+}
+
+function createMarkerClusters(map) {
+    var markerObjectArr = [];
+    markers.forEach(function (markerItem) {
+        markerObjectArr.push(markerItem.marker);
+    });
+    var markerCluster = new MarkerClusterer(map, markerObjectArr,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 }
 
 google.maps.event.addDomListener(window, "load", initMap());
