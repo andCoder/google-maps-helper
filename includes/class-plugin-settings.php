@@ -59,4 +59,8 @@ class Gmh_Plugin_Settings
     public static function get_marker_icon() {
         return get_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD, '' );
     }
+
+    public static function set_marker_icon( $url ) {
+        update_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD, $url );
+    }
 }
