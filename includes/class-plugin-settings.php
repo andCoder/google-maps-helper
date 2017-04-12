@@ -25,7 +25,7 @@ class Gmh_Plugin_Settings
     const JSON_POINT_LONGITUDE_FIELD = GMH_TAG . '_json_lng';
     const JSON_POINT_LATITUDE_FIELD = GMH_TAG . '_json_lat';
     const JSON_VARIABLES_TO_DISPLAY_FIELD = GMH_TAG . '_json_variables_to_display';
-    const MARKER_ICON_FILE_NAME = GMH_TAG . '_marker_icon_file_name';
+    const MARKER_ICON_FILE_NAME_FIELD = GMH_TAG . '_marker_icon_file_name';
 
     const DEFAULT_REFRESH_INTERVAL = 30000;
 
@@ -57,6 +57,6 @@ class Gmh_Plugin_Settings
     }
 
     public static function get_marker_icon() {
-        return get_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME, '' );
+        return get_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD, '' );
     }
 }

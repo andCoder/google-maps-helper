@@ -9,7 +9,7 @@ use \GoogleMapsHelper\Includes\Gmh_Plugin_Settings;
 
 add_action( 'admin_menu', 'add_gmh_settings_page' );
 add_action( 'admin_init', 'gmh_display_settings' );
-add_filter( "plugin_action_links_" . GMH_PLUGIN_NAME, 'gmh_plugin_settings_link' );
+add_filter( 'plugin_action_links_' . GMH_PLUGIN_NAME, 'gmh_plugin_settings_link' );
 
 function gmh_plugin_settings_link( $links ) {
     $settings_link = '<a href="options-general.php?page=google_maps_helper">Settings</a>';
@@ -27,7 +27,7 @@ function gmh_settings() {
     <div class="wrap">
         <div id="icon-options-general" class="icon32"></div>
         <h1>Google Maps Helper</h1>
-        <form method="post" action="options.php?action=update">
+        <form method="post" action="options.php?action=update" enctype="multipart/form-data">
             <?php
             settings_fields( 'gmh_general_settings_group' );
             do_settings_sections( 'gmh_settings' );
@@ -67,7 +67,7 @@ function gmh_display_settings() {
     register_setting( 'gmh_general_settings_group', $field_name );
     add_settings_field( "{$field_name}_field", 'Enter JSON fields to display', 'gmh_print_input_json_vars_field', 'gmh_settings', 'gmh_additional_settings', array( 'name' => $field_name ) );
 
-    $field_name = Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME;
+    $field_name = Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD;
     register_setting( 'gmh_general_settings_group', $field_name, 'gmh_save_marker_icon' );
     add_settings_field( "{$field_name}_field", 'Marker icon', 'gmh_display_marker_file_input', 'gmh_settings', 'gmh_additional_settings', array( 'name' => $field_name ) );
 }
@@ -123,21 +123,19 @@ function gmh_display_marker_file_input( $atts ) {
     $url = Gmh_Plugin_Settings::get_marker_icon();
     ?>
     <div>
-        <p><img class="img-responsive" width="20px" src="<?php echo ! empty( $url ) ? esc_attr( $url ) : ''; ?>"
+        <p><img class="img-responsive" width="45px" src="<?php echo ! empty( $url ) ? esc_attr( $url ) : ''; ?>"
                 alt="marker"/></p>
-        <p><input type="file" name="<?php echo $atts['name']; ?>"
-                  value="<?php echo ! empty( $url ) ? esc_attr( $url ) : ''; ?>"/></p>
+        <p><input type="file" name="<?php echo $atts['name']; ?>"/></p>
     </div>
     <?php
 }
 
 function gmh_save_marker_icon( $option ) {
-    if ( ! empty( $_FILES["demo-file"]["tmp_name"] ) ) {
-        $urls = wp_handle_upload( $_FILES["demo-file"], array( 'test_form' => FALSE ) );
+    if ( ! empty( $_FILES[Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD]["tmp_name"] ) ) {
+        $urls = wp_handle_upload( $_FILES[Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD], array( 'test_form' => FALSE ) );
         $temp = $urls["url"];
         return $temp;
     }
-
     return $option;
 }
 

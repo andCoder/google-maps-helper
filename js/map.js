@@ -2,6 +2,7 @@
  * Created by Admin on 10.04.2017.
  */
 var markers = [];
+var TAG = 'gmh';
 
 function initMap() {
     var mapElement = document.getElementById('map');
@@ -26,8 +27,15 @@ function initMap() {
                 map.setCenter(center);
             }
             if (options.hasOwnProperty('json_url')) {
+                var icon = null;
+
+                if (options.hasOwnProperty('icon')) {
+                    icon = options.icon;
+                }
+
                 createMarkersFromJson(
                     map,
+                    icon,
                     options.json_url,
                     options.json_latitude_field,
                     options.json_longitude_field,
@@ -38,7 +46,7 @@ function initMap() {
     }
 }
 
-function createMarkersFromJson(map, jsonUrl, latField, longField, fields) {
+function createMarkersFromJson(map, markerIcon, jsonUrl, latField, longField, fields) {
     jQuery.ajax({
         url: jsonUrl,
         method: 'GET'
@@ -47,23 +55,26 @@ function createMarkersFromJson(map, jsonUrl, latField, longField, fields) {
             var markerItem = {};
             if (item.hasOwnProperty(latField) && item.hasOwnProperty(longField)) {
                 var markerPos = new google.maps.LatLng(item[latField], item[longField]);
-                markerItem.marker = new google.maps.Marker({
+                markerItem = new google.maps.Marker({
                     position: markerPos
                 });
-                markerItem.marker.setMap(map);
+                if (markerIcon != null) {
+                    markerItem.setIcon(markerIcon);
+                }
+                markerItem.setMap(map);
                 if (fields.length > 0 &&
                     fields[0].length > 0 &&
                     fields[0].toLowerCase() !== 'all') {
                     fields.forEach(function (field) {
                         if (item.hasOwnProperty(field)) {
-                            markerItem[field] = item[field];
+                            markerItem[TAG + '_' + field] = item[field];
                         }
                     });
                 }
                 else {
                     var propNames = Object.getOwnPropertyNames(item);
                     propNames.forEach(function (name) {
-                        markerItem[name] = item[name];
+                        markerItem[TAG + '_' + name] = item[name];
                     });
                 }
                 addMarker(markerItem);
@@ -78,11 +89,7 @@ function addMarker(marker) {
 }
 
 function createMarkerClusters(map) {
-    var markerObjectArr = [];
-    markers.forEach(function (markerItem) {
-        markerObjectArr.push(markerItem.marker);
-    });
-    var markerCluster = new MarkerClusterer(map, markerObjectArr,
+    return new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 }
 
