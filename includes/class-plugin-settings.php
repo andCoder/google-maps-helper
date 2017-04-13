@@ -19,17 +19,17 @@ if ( ! defined( 'GMH_TAG' ) ) {
 class Gmh_Plugin_Settings
 {
     //options fields
-    const API_KEY_FIELD = GMH_TAG . '_api_key';
-    const DISPLAY_STREETMAP_FIELD = GMH_TAG . '_display_streetmap';
-    const JSON_URL_FIELD = GMH_TAG . '_json_url';
-    const JSON_POINT_LONGITUDE_FIELD = GMH_TAG . '_json_lng';
-    const JSON_POINT_LATITUDE_FIELD = GMH_TAG . '_json_lat';
-    const JSON_VARIABLES_TO_DISPLAY_FIELD = GMH_TAG . '_json_variables_to_display';
+    const API_KEY_FIELD = 'gmh_api_key';
+    const DISPLAY_STREETMAP_FIELD = 'gmh_display_streetmap';
+    const JSON_URL_FIELD = 'gmh_json_url';
+    const JSON_POINT_LONGITUDE_FIELD = 'gmh_json_lng';
+    const JSON_POINT_LATITUDE_FIELD = 'gmh_json_lat';
+    const JSON_VARIABLES_TO_DISPLAY_FIELD = 'gmh_json_variables_to_display';
     /*
      * if you'll change this field name you'll need to change an element's id
      * in settings.js #delete-marker-icon click function too.
      */
-    const MARKER_ICON_FILE_NAME_FIELD = GMH_TAG . '_marker_icon_file_name';
+    const MARKER_ICON_FILE_NAME_FIELD = 'gmh_marker_icon_file_name';
 
     const DEFAULT_REFRESH_INTERVAL = 30000;
 
