@@ -5,10 +5,17 @@
  * Date: 11.04.2017
  * Time: 10:22
  */
+if ( ! defined( 'ABSPATH' ) ) {
+    die( 'Access is denied.' );
+}
+
 use \GoogleMapsHelper\Includes\Gmh_Plugin_Settings;
 
 add_action( 'admin_menu', 'add_gmh_settings_page' );
 add_action( 'admin_init', 'gmh_display_settings' );
+add_action( 'admin_enqueue_scripts', 'gmh_load_settings_script' );
+add_action( 'admin_post_gmh_delete_marker', 'gmh_delete_marker' );
+
 add_filter( 'plugin_action_links_' . GMH_PLUGIN_NAME, 'gmh_plugin_settings_link' );
 
 function gmh_plugin_settings_link( $links ) {
@@ -121,11 +128,21 @@ function gmh_print_input_json_vars_field( $atts ) {
 
 function gmh_display_marker_file_input( $atts ) {
     $url = Gmh_Plugin_Settings::get_marker_icon();
+    $icon_src = ! empty( $url ) ? esc_attr( $url ) : '';
     ?>
     <div>
-        <p><img class="img-responsive" width="45px" src="<?php echo ! empty( $url ) ? esc_attr( $url ) : ''; ?>"
-                alt="marker"/></p>
-        <p><input type="file" name="<?php echo $atts['name']; ?>"/></p>
+        <p>
+            <img class="img-responsive" width="45px" src="<?php echo $icon_src; ?>"
+                 alt="marker" id="gmh-marker-icon"/>
+            <?php if ( ! empty( $icon_src ) ) { ?>
+                <a href="#" id="delete-marker-icon">delete</a>
+            <?php } ?>
+        </p>
+        <p>
+            <input type="file" name="<?php echo $atts['name']; ?>" value="<?php echo $icon_src; ?>"/>
+            <input type="hidden" name="<?php echo $atts['name']; ?>" id="<?php echo $atts['name']; ?>"
+                   value="<?php echo $icon_src; ?>"/>
+        </p>
     </div>
     <?php
 }
@@ -137,5 +154,23 @@ function gmh_save_marker_icon( $option ) {
         return $temp;
     }
     return $option;
+}
+
+function gmh_load_settings_script( $hook ) {
+    if ( $hook != 'settings_page_gmh_settings' ) {
+        return;
+    }
+    wp_enqueue_script( 'gmh_settings_script', GMH_PLUGIN_URL . '/js/settings.js', array( 'jquery' ), null, true );
+}
+
+function gmh_delete_marker() {
+    $file_url = Gmh_Plugin_Settings::get_marker_icon();
+    if ( ! empty( $file_url ) ) {
+        $file_path = str_replace( $_SERVER['HTTP_ORIGIN'], $_SERVER['DOCUMENT_ROOT'], esc_url( $file_url ) );
+        if ( file_exists( $file_path ) ) {
+            unlink( $file_path );
+            Gmh_Plugin_Settings::set_marker_icon( '' );
+        }
+    }
 }
 

@@ -9,5 +9,7 @@ jQuery('#delete-marker-icon').click(function (e) {
         data: {action: 'gmh_delete_marker'}
     }).done(function () {
         jQuery('#gmh-marker-icon').attr('src', '');
+        jQuery('#delete-marker-icon').remove();
+        jQuery('#gmh_marker_icon_file_name').val('');
     });
 });
