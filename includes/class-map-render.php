@@ -104,8 +104,6 @@ class Google_Map_Render
 
     public function add_script() {
         if ( isset( $this->map_options['api_key'] ) ) {
-            do_action( GMH_TAG . '_register_scripts' );
-
             wp_register_script( 'google-map-clusters', "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js", null, false, true );
             wp_enqueue_script( 'google-map-clusters' );
 
