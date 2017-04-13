@@ -11,4 +11,4 @@ It uses a shortcode <b>[google-maps-helper]</b>. This shortcode can be used with
   <li><b>zoom (number)</b></li>
   <li><b>map_center</b> - a string in format of <i>"latitude;longitude"</i></li>
 </ol>  
-<p><b>InfoWindows</b> appears when you hover a marker. You can change its template modifing <i>"info_window.tpl"</i> file in <i>"includes"</i> folder. Or you can override its template by adding filter for <i>"gmh_before_print_info_window"</i> that uses $content as an argument. Just use an html markup. You need to wrap required property by "%" tag. Every field that you have to display must exists in json.</p>
+<p><b>InfoWindows</b> appears when you hover a marker. You can change its template modifing <i>"info_window.tpl"</i> file in <i>"includes"</i> folder. Or you can override its template by adding filter for <i>"gmh_before_print_info_window"</i> that uses an argument <i>'$content'</i>. Just use an html markup. You need to wrap required property by "%" tag. Every field that you have to display must exists in json.</p>
