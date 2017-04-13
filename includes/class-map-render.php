@@ -104,13 +104,13 @@ class Google_Map_Render
 
     public function add_script() {
         if ( isset( $this->map_options['api_key'] ) ) {
-            wp_register_script( 'google-map-clusters', "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js", null, false, true );
+            wp_register_script( 'google-map-clusters', "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js", false, true );
             wp_enqueue_script( 'google-map-clusters' );
 
-            wp_register_script( 'google-sdk', "https://maps.googleapis.com/maps/api/js?key={$this->map_options['api_key']}", null, false, true );
+            wp_register_script( 'google-sdk', "https://maps.googleapis.com/maps/api/js?key={$this->map_options['api_key']}", false, true );
             wp_enqueue_script( 'google-sdk' );
 
-            wp_register_script( 'gmh-parser-js', GMH_PLUGIN_URL . '/js/template-parser.js', null, false, true );
+            wp_register_script( 'gmh-parser-js', GMH_PLUGIN_URL . '/js/template-parser.js', false, true );
             wp_enqueue_script( 'gmh-parser-js' );
 
             wp_register_script( 'gmh-map-js', GMH_PLUGIN_URL . '/js/map.js', array( 'google-map-clusters', 'google-sdk', 'gmh-parser-js', 'jquery' ), false, true );
