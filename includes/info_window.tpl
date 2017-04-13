@@ -1,0 +1,1 @@
+<h4>Test template with %company%</h4>

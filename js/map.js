@@ -2,6 +2,9 @@
  * Created by Admin on 10.04.2017.
  */
 var markers = [];
+var infoWindow = null;
+var parser = new TemplateParser();
+
 var TAG = 'gmh';
 
 function initMap() {
@@ -9,6 +12,7 @@ function initMap() {
     if (mapElement != null) {
         var markers = [];
         var map = new google.maps.Map(document.getElementById('map'));
+        infoWindow = new google.maps.InfoWindow();
 
         if (typeof options !== 'undefined' && options !== null) {
             if (options.hasOwnProperty('map_type')) {
@@ -25,6 +29,9 @@ function initMap() {
             if (options.hasOwnProperty('map_center')) {
                 var center = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
                 map.setCenter(center);
+            }
+            if (options.hasOwnProperty('info_window')) {
+                parser.setTemplate(options.info_window);
             }
             if (options.hasOwnProperty('json_url')) {
                 var icon = null;
@@ -77,11 +84,23 @@ function createMarkersFromJson(map, markerIcon, jsonUrl, latField, longField, fi
                         markerItem[TAG + '_' + name] = item[name];
                     });
                 }
+                google.maps.event.addListener(markerItem, 'mouseover', function () {
+                    openInfoWindow(markerItem);
+                });
                 addMarker(markerItem);
             }
         });
-        createMarkerClusters(map)
+        createMarkerClusters(map);
+        //addInfoWindow();
     });
+}
+
+function openInfoWindow(marker) {
+    var content = parser.parse(marker);
+    if (content) {
+        infoWindow.setContent(content);
+        infoWindow.open(map, marker);
+    }
 }
 
 function addMarker(marker) {
@@ -91,6 +110,12 @@ function addMarker(marker) {
 function createMarkerClusters(map) {
     return new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+}
+
+function addInfoWindow() {
+    markers.forEach(function (marker) {
+        marker.addListener('click', openInfoWindow(marker));
+    });
 }
 
 google.maps.event.addDomListener(window, "load", initMap());
