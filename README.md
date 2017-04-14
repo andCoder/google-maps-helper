@@ -7,7 +7,7 @@ It uses a shortcode <b>[google-maps-helper]</b>. This shortcode can be used with
 <ol>
   <li><b>title</b></li>
   <li><b>type</b> - can be: <i>roadmap</i>, <i>satellite</i>, <i>hybrid</i> or <i>terrain</i></li>
-  <li><b>refresh_interval</b></li>
+  <li><b>refresh_interval</b> - period of map refreshment in seconds.</li>
   <li><b>zoom (number)</b></li>
   <li><b>map_center</b> - a string in format of <i>"latitude;longitude"</i></li>
 </ol>  
