@@ -5,5 +5,6 @@
     </div>
     <div class="gmh-content">
         <h4>Test template with %company%</h4>
+        <p>%about%</p>
     </div>
 </div>

@@ -18,7 +18,7 @@ function TemplateParser() {
 TemplateParser.prototype.parse = function (data) {
     var template = this.getTemplate();
     if (template != null) {
-        var exp = /\%(\w+)\%/;
+        var exp = /\%(\w+)\%/g;
         var result = null;
         template = template.replace(exp, function (searchText) {
             var field = 'gmh_' + searchText.substring(1, searchText.length - 1);
