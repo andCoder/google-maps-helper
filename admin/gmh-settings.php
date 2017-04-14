@@ -70,6 +70,10 @@ function gmh_display_settings() {
 
     add_settings_section( 'gmh_additional_settings', 'Additional plugin settings', null, 'gmh_settings' );
 
+    $field_name = Gmh_Plugin_Settings::JSON_HEADER;
+    register_setting( 'gmh_general_settings_group', $field_name );
+    add_settings_field( "{$field_name}_field", 'Request header', 'gmh_print_request_header_input', 'gmh_settings', 'gmh_additional_settings', array( 'name' => $field_name ) );
+
     $field_name = Gmh_Plugin_Settings::JSON_VARIABLES_TO_DISPLAY_FIELD;
     register_setting( 'gmh_general_settings_group', $field_name );
     add_settings_field( "{$field_name}_field", 'Enter JSON fields to display', 'gmh_print_input_json_vars_field', 'gmh_settings', 'gmh_additional_settings', array( 'name' => $field_name ) );
@@ -115,6 +119,14 @@ function gmh_display_json_point_longitude_field( $atts ) {
     ?>
     <input type="text" name="<?php echo $atts['name']; ?>"
            value="<?php echo ! empty( $field_name ) ? esc_attr( $field_name ) : ''; ?>" required/>
+    <?php
+}
+
+function gmh_print_request_header_input( $atts ) {
+    $request_header = Gmh_Plugin_Settings::get_request_header();
+    ?>
+    <textarea name="<?php echo $atts['name']; ?>"
+              style="width:300px"><?php echo ! empty( $request_header ) ? esc_attr( $request_header ) : ''; ?></textarea>
     <?php
 }
 

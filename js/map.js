@@ -15,98 +15,91 @@ function initMap() {
         infoWindow = new google.maps.InfoWindow();
 
         if (typeof options !== 'undefined' && options !== null) {
-            if (options.hasOwnProperty('map_type')) {
-                map.setMapTypeId(options.map_type);
+            map.setMapTypeId(options.map_type);
+            try {
+                map.setZoom(parseFloat(options.zoom));
             }
-            if (options.hasOwnProperty('zoom')) {
-                try {
-                    map.setZoom(parseFloat(options.zoom));
-                }
-                catch (e) {
-                    console.log(e);
-                }
+            catch (e) {
+                console.log(e);
             }
-            if (options.hasOwnProperty('map_center')) {
-                var center = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
-                map.setCenter(center);
-            }
-            showPreview = options.hasOwnProperty('display_streetmap') && options.display_streetmap;
-            if (options.hasOwnProperty('info_window')) {
-                parser.setTemplate(options.info_window);
-            }
-            if (options.hasOwnProperty('json_url')) {
-                var icon = null;
 
-                if (options.hasOwnProperty('icon')) {
-                    icon = options.icon;
-                }
+            var center = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
+            map.setCenter(center);
 
-                createMarkersFromJson(
-                    map,
-                    icon,
-                    {
-                        apiKey: options.api_key,
-                        jsonUrl: options.json_url,
-                        latField: options.json_latitude_field,
-                        longField: options.json_longitude_field,
-                        fields: options.json_fields
-                    }
-                );
-            }
-            if (options.hasOwnProperty('refresh_interval')) {
-                var interval = 0;
-                try {
-                    interval = parseInt(options.refresh_interval);
-                    if (interval > 0) {
-                        window.setTimeout(function () {
-                            google.maps.event.trigger(map, 'resize');
-                        }, interval * 1000)
-                    }
+            showPreview = options.display_streetmap;
+            parser.setTemplate(options.info_window);
+
+            var markerOptions = {
+                apiKey: options.api_key,
+                jsonUrl: options.json_url,
+                latField: options.json_latitude_field,
+                longField: options.json_longitude_field,
+                fields: options.json_fields
+            };
+
+            createMarkersFromJson(
+                map,
+                options.icon,
+                markerOptions
+            );
+
+
+            var interval = 0;
+            try {
+                interval = parseInt(options.refresh_interval);
+                if (interval > 0) {
+                    window.setTimeout(function () {
+                        google.maps.event.trigger(map, 'resize');
+                    }, interval * 1000)
                 }
-                catch (e) {
-                    console.log(e);
-                }
             }
+            catch (e) {
+                console.log(e);
+            }
+
         }
     }
 }
 
 function createMarkersFromJson(map, markerIcon, options) {
-    jQuery.ajax({
+    var requestOptions = {
         url: options.jsonUrl,
         method: 'GET'
-    }).done(function (data) {
+    };
+    if (options.hasOwnProperty('requestHeader')) {
+        requestOptions.headers = options.requestHeader;
+    }
+    jQuery.ajax(requestOptions).done(function (data) {
         data.forEach(function (item) {
             var markerItem = {};
-            if (item.hasOwnProperty(options.latField) && item.hasOwnProperty(options.longField)) {
-                var markerPos = new google.maps.LatLng(item[options.latField], item[options.longField]);
-                markerItem = new google.maps.Marker({
-                    position: markerPos
-                });
-                if (markerIcon != null) {
-                    markerItem.setIcon(markerIcon);
-                }
-                markerItem.setMap(map);
-                if (options.fields.length > 0 &&
-                    options.fields[0].length > 0 &&
-                    options.fields[0].toLowerCase() !== 'all') {
-                    options.fields.forEach(function (field) {
-                        if (item.hasOwnProperty(field)) {
-                            markerItem[TAG + '_' + field] = item[field];
-                        }
-                    });
-                }
-                else {
-                    var propNames = Object.getOwnPropertyNames(item);
-                    propNames.forEach(function (name) {
-                        markerItem[TAG + '_' + name] = item[name];
-                    });
-                }
-                google.maps.event.addListener(markerItem, 'mouseover', function () {
-                    openInfoWindow(markerItem, options.apiKey);
-                });
-                addMarker(markerItem);
+
+            var markerPos = new google.maps.LatLng(item[options.latField], item[options.longField]);
+            markerItem = new google.maps.Marker({
+                position: markerPos
+            });
+            if (markerIcon != null) {
+                markerItem.setIcon(markerIcon);
             }
+            markerItem.setMap(map);
+            if (options.fields.length > 0 &&
+                options.fields[0].length > 0 &&
+                options.fields[0].toLowerCase() !== 'all') {
+                options.fields.forEach(function (field) {
+                    if (item.hasOwnProperty(field)) {
+                        markerItem[TAG + '_' + field] = item[field];
+                    }
+                });
+            }
+            else {
+                var propNames = Object.getOwnPropertyNames(item);
+                propNames.forEach(function (name) {
+                    markerItem[TAG + '_' + name] = item[name];
+                });
+            }
+            google.maps.event.addListener(markerItem, 'click', function () {
+                openInfoWindow(markerItem, options.apiKey);
+            });
+            addMarker(markerItem);
         });
         createMarkerClusters(map);
         //addInfoWindow();
@@ -121,7 +114,7 @@ function openInfoWindow(marker, apiKey) {
 
         if (showPreview && apiKey) {
             var preview = document.getElementById('gmh-point-preview');
-            preview.setAttribute('src', 'https://maps.googleapis.com/maps/api/streetview?size=200x100&location=' + marker.getPosition().lat() +
+            preview.setAttribute('src', 'https://maps.googleapis.com/maps/api/streetview?size=100x50&location=' + marker.getPosition().lat() +
                 ',' + marker.getPosition().lng() + '&key=' + apiKey);
             preview.setAttribute('style', 'width:auto;');
         }

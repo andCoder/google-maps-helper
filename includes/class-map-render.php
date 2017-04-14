@@ -43,7 +43,7 @@ class Google_Map_Render
     }
 
     public function set_refresh_interval( $intervalInMillis ) {
-        $this->map_options['refreshInterval'] = $intervalInMillis;
+        $this->map_options['refresh_interval'] = $intervalInMillis;
     }
 
     public function set_map_type( $type ) {
@@ -81,6 +81,10 @@ class Google_Map_Render
 
     public function display_streetmap( $display ) {
         $this->map_options['display_streetmap'] = $display;
+    }
+
+    public function set_request_header( $header ) {
+        $this->map_options['request_header'] = $header;
     }
 
     private function get_info_window_template() {

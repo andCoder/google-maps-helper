@@ -59,10 +59,15 @@ class Google_Map_Helper
         $this->render->set_json_fields( esc_attr( Gmh_Plugin_Settings::get_json_variables_to_display() ) );
         $this->render->display_streetmap( esc_attr( Gmh_Plugin_Settings::display_streetmap() ) );
         $this->render->set_marker_icon( esc_url( Gmh_Plugin_Settings::get_marker_icon() ) );
+        $this->render->set_request_header( esc_url( Gmh_Plugin_Settings::get_request_header() ) );
 
         $this->render->print_options();
 
         return $this->render->get_map();
+    }
+
+    public function uninstall() {
+
     }
 }
 

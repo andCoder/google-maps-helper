@@ -22,6 +22,7 @@ class Gmh_Plugin_Settings
     const API_KEY_FIELD = 'gmh_api_key';
     const DISPLAY_STREETMAP_FIELD = 'gmh_display_streetmap';
     const JSON_URL_FIELD = 'gmh_json_url';
+    const JSON_HEADER = 'gmh_json_header';
     const JSON_POINT_LONGITUDE_FIELD = 'gmh_json_lng';
     const JSON_POINT_LATITUDE_FIELD = 'gmh_json_lat';
     const JSON_VARIABLES_TO_DISPLAY_FIELD = 'gmh_json_variables_to_display';
@@ -66,5 +67,9 @@ class Gmh_Plugin_Settings
 
     public static function set_marker_icon( $url ) {
         update_option( Gmh_Plugin_Settings::MARKER_ICON_FILE_NAME_FIELD, $url );
+    }
+
+    public static function get_request_header() {
+        return get_option( Gmh_Plugin_Settings::JSON_HEADER, '' );
     }
 }
