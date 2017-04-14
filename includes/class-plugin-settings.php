@@ -31,7 +31,7 @@ class Gmh_Plugin_Settings
      */
     const MARKER_ICON_FILE_NAME_FIELD = 'gmh_marker_icon_file_name';
 
-    const DEFAULT_REFRESH_INTERVAL = 30000;
+    const DEFAULT_REFRESH_INTERVAL = 0;
 
     //for development purposes only!!!
     const DEVELOPER_KEY = 'AIzaSyBBopFVPzEjfKrK_upkbcYlK3wddBwFTXg';

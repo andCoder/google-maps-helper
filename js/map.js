@@ -4,7 +4,7 @@
 var markers = [];
 var infoWindow = null;
 var parser = new TemplateParser();
-
+var showPreview = false;
 var TAG = 'gmh';
 
 function initMap() {
@@ -30,6 +30,7 @@ function initMap() {
                 var center = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
                 map.setCenter(center);
             }
+            showPreview = options.hasOwnProperty('display_streetmap') && options.display_streetmap;
             if (options.hasOwnProperty('info_window')) {
                 parser.setTemplate(options.info_window);
             }
@@ -43,25 +44,42 @@ function initMap() {
                 createMarkersFromJson(
                     map,
                     icon,
-                    options.json_url,
-                    options.json_latitude_field,
-                    options.json_longitude_field,
-                    options.json_fields
+                    {
+                        apiKey: options.api_key,
+                        jsonUrl: options.json_url,
+                        latField: options.json_latitude_field,
+                        longField: options.json_longitude_field,
+                        fields: options.json_fields
+                    }
                 );
+            }
+            if (options.hasOwnProperty('refresh_interval')) {
+                var interval = 0;
+                try {
+                    interval = parseInt(options.refresh_interval);
+                    if (interval > 0) {
+                        window.setTimeout(function () {
+                            google.maps.event.trigger(map, 'resize');
+                        }, interval * 1000)
+                    }
+                }
+                catch (e) {
+                    console.log(e);
+                }
             }
         }
     }
 }
 
-function createMarkersFromJson(map, markerIcon, jsonUrl, latField, longField, fields) {
+function createMarkersFromJson(map, markerIcon, options) {
     jQuery.ajax({
-        url: jsonUrl,
+        url: options.jsonUrl,
         method: 'GET'
     }).done(function (data) {
         data.forEach(function (item) {
             var markerItem = {};
-            if (item.hasOwnProperty(latField) && item.hasOwnProperty(longField)) {
-                var markerPos = new google.maps.LatLng(item[latField], item[longField]);
+            if (item.hasOwnProperty(options.latField) && item.hasOwnProperty(options.longField)) {
+                var markerPos = new google.maps.LatLng(item[options.latField], item[options.longField]);
                 markerItem = new google.maps.Marker({
                     position: markerPos
                 });
@@ -69,10 +87,10 @@ function createMarkersFromJson(map, markerIcon, jsonUrl, latField, longField, fi
                     markerItem.setIcon(markerIcon);
                 }
                 markerItem.setMap(map);
-                if (fields.length > 0 &&
-                    fields[0].length > 0 &&
-                    fields[0].toLowerCase() !== 'all') {
-                    fields.forEach(function (field) {
+                if (options.fields.length > 0 &&
+                    options.fields[0].length > 0 &&
+                    options.fields[0].toLowerCase() !== 'all') {
+                    options.fields.forEach(function (field) {
                         if (item.hasOwnProperty(field)) {
                             markerItem[TAG + '_' + field] = item[field];
                         }
@@ -85,7 +103,7 @@ function createMarkersFromJson(map, markerIcon, jsonUrl, latField, longField, fi
                     });
                 }
                 google.maps.event.addListener(markerItem, 'mouseover', function () {
-                    openInfoWindow(markerItem);
+                    openInfoWindow(markerItem, options.apiKey);
                 });
                 addMarker(markerItem);
             }
@@ -95,11 +113,18 @@ function createMarkersFromJson(map, markerIcon, jsonUrl, latField, longField, fi
     });
 }
 
-function openInfoWindow(marker) {
+function openInfoWindow(marker, apiKey) {
     var content = parser.parse(marker);
     if (content) {
         infoWindow.setContent(content);
         infoWindow.open(map, marker);
+
+        if (showPreview && apiKey) {
+            var preview = document.getElementById('gmh-point-preview');
+            preview.setAttribute('src', 'https://maps.googleapis.com/maps/api/streetview?size=200x100&location=' + marker.getPosition().lat() +
+                ',' + marker.getPosition().lng() + '&key=' + apiKey);
+            preview.setAttribute('style', 'width:auto;');
+        }
     }
 }
 

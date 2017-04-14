@@ -83,7 +83,7 @@ function gmh_display_api_key_field( $atts ) {
     $key = Gmh_Plugin_Settings::get_api_key();
     ?>
     <textarea type="text" name="<?php echo $atts['name']; ?>"
-              style="width:300px"><?php echo ! empty( $key ) ? esc_attr( $key ) : ''; ?></textarea>
+              style="width:300px" required><?php echo ! empty( $key ) ? esc_attr( $key ) : ''; ?></textarea>
     <?php
 }
 
@@ -98,7 +98,7 @@ function gmh_display_json_source_field( $atts ) {
     $url = Gmh_Plugin_Settings::get_json_url();
     ?>
     <input type="url" name="<?php echo $atts['name']; ?>" value="<?php echo ! empty( $url ) ? esc_attr( $url ) : ''; ?>"
-           style="width:300px"/>
+           style="width:300px" required/>
     <?php
 }
 
@@ -106,7 +106,7 @@ function gmh_display_json_point_latitude_field( $atts ) {
     $field_name = Gmh_Plugin_Settings::get_json_latitude_field_name();
     ?>
     <input type="text" name="<?php echo $atts['name']; ?>"
-           value="<?php echo ! empty( $field_name ) ? esc_attr( $field_name ) : ''; ?>"/>
+           value="<?php echo ! empty( $field_name ) ? esc_attr( $field_name ) : ''; ?>" required/>
     <?php
 }
 
@@ -114,7 +114,7 @@ function gmh_display_json_point_longitude_field( $atts ) {
     $field_name = Gmh_Plugin_Settings::get_json_longitude_field_name();
     ?>
     <input type="text" name="<?php echo $atts['name']; ?>"
-           value="<?php echo ! empty( $field_name ) ? esc_attr( $field_name ) : ''; ?>"/>
+           value="<?php echo ! empty( $field_name ) ? esc_attr( $field_name ) : ''; ?>" required/>
     <?php
 }
 
